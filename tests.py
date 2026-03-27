@@ -144,3 +144,34 @@ def test_correct_selected_empty():
     result = q.correct_selected_choices([])
 
     assert result == []
+
+
+# Tests with fixture
+
+@pytest.fixture
+def question_with_choices():
+    question = Question(title="avaliação", max_selections = 2)
+    choice1 = question.add_choice("a", True)
+    choice2 = question.add_choice("b", False)
+    choice3 = question.add_choice("c", True)
+    choice4 = question.add_choice("d", False)
+
+    return question, choice1, choice2, choice3, choice4
+
+def test_changing_the_choice(question_with_choices):
+    question, choice1, choice2, choice3, choice4 = question_with_choices
+
+    assert choice1.is_correct == True
+    choice1.is_correct = False
+    assert choice1.is_correct == False
+
+    assert choice2.is_correct == False
+    choice2.is_correct = True
+    assert choice2.is_correct == True
+
+def test_changing_the_question_name(question_with_choices):
+    question, choice1, choice2, choice3, choice4 = question_with_choices
+
+    assert question.title == "avaliação"
+    question.title = "iza"
+    assert question.title == "iza"
